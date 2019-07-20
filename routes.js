@@ -7,7 +7,7 @@ const db = require('./db');
  */
 
 router.get('/', function(req, res, next) {
-  return res.send('hello world');
+  return res.render('base.html');
 });
 
 /** Form to login */
