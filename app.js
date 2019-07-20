@@ -5,8 +5,6 @@ const ExpressError = require('./helpers/expressError');
 
 const app = express();
 
-const db = require('./db');
-
 app.use(express.json());
 app.use(routes);
 
