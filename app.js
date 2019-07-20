@@ -1,11 +1,21 @@
 const express = require('express');
 const routes = require('./routes');
+const nunjucks = require("nunjucks");
 
 const ExpressError = require('./helpers/expressError');
 
 const app = express();
 
+/** Parse body into JSON format */
 app.use(express.json());
+
+/** Add templating with nunjucks */
+nunjucks.configure('templates', {
+  autoescape: true,
+  express: app,
+});
+
+/** Add routes */
 app.use(routes);
 
 /** Handle 404's 
