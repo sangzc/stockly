@@ -1,6 +1,6 @@
 const express = require('express');
-
 const router = new express.Router();
+const db = require('./db');
 
 /** Homepage: show login/signup or homepage
  * depending on if user is logged in
