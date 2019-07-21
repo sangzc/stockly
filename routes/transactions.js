@@ -3,7 +3,8 @@ const router = express.Router();
 
 const Transaction = require('../models/transaction');
 
-/** GET /transactions/:userid => {transactions: [transaction, ...]} */
+/** ROUTE TO GET ALL TRANSACTIONS FOR A USER 
+ * GET /transactions/:userid => {transactions: [transaction, ...]} */
 
 router.get('/:userid', async function(req, res, next) {
   try {
@@ -17,7 +18,9 @@ router.get('/:userid', async function(req, res, next) {
 
 });
 
-/** POST /transactions/ 
+/** ROUTE TO BUY A STOCK  
+ * 
+ * POST /transactions/ 
  * { user_id, 
  *   ticker_symbol, 
  *   shares, 

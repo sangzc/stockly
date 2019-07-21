@@ -2,6 +2,19 @@ const db = require('../db');
 
 class Transaction {
 
+  static async getAllByUserId(userId) {
+    const result = await db.query(
+      `SELECT * 
+       FROM transactions
+       WHERE user_id = $1`,
+       [
+         userId,
+       ]
+    );
+    const transactions = result.rows;
+    return transactions;
+  }
+
   static async buyStock(data) {
     const result = await db.query(
       `INSERT INTO transactions
