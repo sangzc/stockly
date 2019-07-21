@@ -1,19 +1,16 @@
 const express = require('express');
-const routes = require('./routes');
-const nunjucks = require("nunjucks");
+const app = express();
+const cors = require("cors");
 
 const ExpressError = require('./helpers/expressError');
 
-const app = express();
+const routes = require('./routes');
 
 /** Parse body into JSON format */
 app.use(express.json());
 
-/** Add templating with nunjucks */
-nunjucks.configure('templates', {
-  autoescape: true,
-  express: app,
-});
+/** Use cors */
+app.use(cors());
 
 /** Add routes */
 app.use(routes);
