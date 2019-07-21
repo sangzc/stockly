@@ -4,8 +4,7 @@ const cors = require("cors");
 
 const ExpressError = require('./helpers/expressError');
 
-const routes = require('./routes');
-
+const userRoutes = require('./routes/users');
 /** Parse body into JSON format */
 app.use(express.json());
 
@@ -13,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 /** Add routes */
-app.use(routes);
+app.use('/users', userRoutes);
 
 /** Handle 404's 
  * If no routes are matched, return 404 error

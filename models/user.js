@@ -1,7 +1,7 @@
 const moment = require('moment');
 const ExpressError = require('../helpers/expressError');
 
-const db = require('./db');
+const db = require('../db');
 
 /** Related functions for users. */
 
@@ -42,14 +42,14 @@ class User {
       );
       throw err;
     }
-
+    console.log("DATA.FULLNAME", data);
     const result = await db.query(
       `INSERT INTO users
         (full_name, email, password)
         VALUES ($1, $2, $3)
         RETURNING id, full_name, email, cash_balance`,
         [
-          data.fullname,
+          data.full_name,
           data.email,
           data.password,
         ]);
@@ -59,3 +59,5 @@ class User {
     return user;
   }
 }
+
+module.exports = User;
