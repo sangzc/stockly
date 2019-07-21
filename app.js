@@ -6,6 +6,8 @@ const ExpressError = require('./helpers/expressError');
 
 const userRoutes = require('./routes/users');
 const transactionRoutes = require('./routes/transactions');
+const authRoutes = require('./routes/auth');
+
 /** Parse body into JSON format */
 app.use(express.json());
 
@@ -15,6 +17,7 @@ app.use(cors());
 /** Add routes */
 app.use('/users', userRoutes);
 app.use('/transactions', transactionRoutes);
+app.use('/login', authRoutes);
 
 /** Handle 404's 
  * If no routes are matched, return 404 error

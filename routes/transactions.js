@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const Transaction = require('../models/transaction');
+const { authRequired } = require('../middleware/auth');
 
 /** ROUTE TO GET ALL TRANSACTIONS FOR A USER 
  * GET /transactions/:userid => {transactions: [transaction, ...]} */
 
-router.get('/:userid', async function(req, res, next) {
+router.get('/:userid', authRequired, async function(req, res, next) {
   try {
     const transactions = await Transaction.getAllByUserId(req.params.userid);
     return res.json({ transactions });
@@ -29,7 +30,7 @@ router.get('/:userid', async function(req, res, next) {
  *   account_balance 
  * } => {transaction: [ transaction ] } 
  */
-router.post('/', async function(req, res, next) {
+router.post('/', authRequired, async function(req, res, next) {
   try {
     const transaction = await Transaction.buyStock(req.body);
     return res.json({ transaction });

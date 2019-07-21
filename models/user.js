@@ -1,7 +1,8 @@
-const moment = require('moment');
 const ExpressError = require('../helpers/expressError');
-
+const bcrypt = require('bcrypt');
 const db = require('../db');
+
+const BCRYPT_WORK_FACTOR = 10;
 
 /** Related functions for users. */
 
@@ -26,8 +27,8 @@ class User {
     return user;
   }
 
+  /** Register a new User */
   static async register(data) {
-
     const duplicateCheck = await db.query(
       `SELECT *
           FROM users
@@ -43,6 +44,8 @@ class User {
       throw err;
     }
 
+    const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+
     const result = await db.query(
       `INSERT INTO users
         (full_name, email, password)
@@ -51,12 +54,38 @@ class User {
         [
           data.full_name,
           data.email,
-          data.password,
+          hashedPassword,
         ]);
 
     const user = result.rows[0]
 
     return user;
+  }
+
+  /** Authenticate a User */
+  static async authenticate(data) {
+    // Get user record
+    const result = await db.query(
+      `SELECT * 
+       FROM users 
+       WHERE id = $1`, 
+      [data.user_id]);
+      
+    console.log("THE DATA IS", data);
+    
+    const user = result.rows[0];
+    console.log("THE USER IS", user);
+    
+    if (user) {
+      const isValid = await bcrypt.compare(data.password, user.password);
+      if (isValid){
+        return user;
+      }
+    }
+
+    const invalidPass = new ExpressError('Invalid Credentials', 401);
+    throw invalidPass;
+
   }
 }
 
