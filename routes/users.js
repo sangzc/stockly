@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require('../models/user');
 
-/** GET / => {users: [user, ...]} */
+/** GET users/:id => {users: [user, ...]} */
 
 router.get('/:id', async function(req, res, next) {
   try {
@@ -15,4 +15,3 @@ router.get('/:id', async function(req, res, next) {
     return next(err);
   }
 });
-
