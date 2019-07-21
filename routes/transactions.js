@@ -17,4 +17,23 @@ router.get('/:userid', async function(req, res, next) {
 
 });
 
+/** POST /transactions/ 
+ * { user_id, 
+ *   ticker_symbol, 
+ *   shares, 
+ *   price, 
+ *   total_paid, 
+ *   account_balance 
+ * } => {transaction: [ transaction ] } 
+ */
+router.post('/', async function(req, res, next) {
+  try {
+    const transaction = await Transaction.buyStock(req.body);
+    return res.json({ transaction });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;
