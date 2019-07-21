@@ -10,7 +10,7 @@ class User {
   /** Find user by ID: */
   static async getById(id) {
     // Query the db for the user by id
-    let result = await db.query(
+    const result = await db.query(
       `SELECT * FROM users WHERE id = $1`, 
       [id]);
     
@@ -20,10 +20,42 @@ class User {
     }
 
     // Grab the first result
-    let user = result.rows[0];
+    const user = result.rows[0];
 
     // Return a User class with retrieved values
     return user;
   }
 
+  static async register(data) {
+
+    const duplicateCheck = await db.query(
+      `SELECT *
+          FROM users
+          WHERE email = $1`,
+      [data.email]
+    );
+
+    if (duplicateCheck.rows[0]) {
+      const err = new ExpressError(
+        `There already exists a user with this email ${data.email}`,
+        409
+      );
+      throw err;
+    }
+
+    const result = await db.query(
+      `INSERT INTO users
+        (full_name, email, password)
+        VALUES ($1, $2, $3)
+        RETURNING id, full_name, email, cash_balance`,
+        [
+          data.fullname,
+          data.email,
+          data.password,
+        ]);
+
+    const user = result.rows[0]
+
+    return user;
+  }
 }
