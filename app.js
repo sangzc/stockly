@@ -7,6 +7,7 @@ const ExpressError = require('./helpers/expressError');
 const userRoutes = require('./routes/users');
 const transactionRoutes = require('./routes/transactions');
 const authRoutes = require('./routes/auth');
+const portfolioRoutes = require('./routes/portfolio');
 
 /** Parse body into JSON format */
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/transactions', transactionRoutes);
 app.use('/login', authRoutes);
+app.use('/portfolio', portfolioRoutes);
 
 /** Handle 404's 
  * If no routes are matched, return 404 error

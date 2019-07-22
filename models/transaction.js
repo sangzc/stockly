@@ -74,6 +74,26 @@ class Transaction {
 
     return result.rows[0];
   }
+
+  /**
+   * Gets a list of all the stocks and # of shares a user owns
+   * 
+   * output: [ {ticker_symbol: XXX, sum: 999} ]
+   */
+  static async getStocksByUser(userId) {
+
+    const stocks = await db.query(`
+      SELECT ticker_symbol, SUM(shares)
+      FROM transactions
+      WHERE user_id = $1
+      GROUP BY ticker_symbol;
+    `,
+    [
+      userId,
+    ]);
+
+    return stocks.rows;
+  }
 }
 
 module.exports = Transaction;
