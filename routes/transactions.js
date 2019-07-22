@@ -7,9 +7,9 @@ const { authRequired } = require('../middleware/auth');
 /** ROUTE TO GET ALL TRANSACTIONS FOR A USER 
  * GET /transactions/:userid => {transactions: [transaction, ...]} */
 
-router.get('/:userid', authRequired, async function(req, res, next) {
+router.get('/', authRequired, async function(req, res, next) {
   try {
-    const transactions = await Transaction.getAllByUserId(req.params.userid);
+    const transactions = await Transaction.getAllByUserId(req.userId);
     return res.json({ transactions });
   }
 
@@ -32,7 +32,7 @@ router.get('/:userid', authRequired, async function(req, res, next) {
  */
 router.post('/', authRequired, async function(req, res, next) {
   try {
-    const transaction = await Transaction.buyStock(req.body);
+    const transaction = await Transaction.buyStock(req);
     return res.json({ transaction });
   }
   catch (err) {

@@ -7,7 +7,7 @@ const { SECRET } = require('../config');
 
  function createToken(user) {
    let payload = {
-     user_id: user.id,
+     userId: user.id,
      email: user.email
    };
 

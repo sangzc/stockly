@@ -9,7 +9,7 @@ const { authRequired } = require('../middleware/auth');
 
 router.get('/', authRequired, async function(req, res, next) {
   try {
-    const users = await User.getUserInfo(req);
+    const user = await User.getUserInfo(req);
     return res.json({ user });
   }
 

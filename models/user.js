@@ -13,11 +13,11 @@ class User {
     // Query the db for the user by id
     const result = await db.query(
       `SELECT * FROM users WHERE id = $1`, 
-      [data.id]);
+      [data.userId]);
     
     // Throw an error if the user can't be found
     if (result.rows.length === 0) {
-      throw new ExpressError(`No such user: ${id}`, 404);
+      throw new ExpressError(`No such user: ${data.userId}`, 404);
     }
 
     // Grab the first result

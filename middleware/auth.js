@@ -9,7 +9,7 @@ function authRequired(req, res, next) {
     const tokenStr = req.body._token || req.query._token;
     let token = jwt.verify(tokenStr, SECRET);
     req.email = token.email;
-    req.user_id = token.user_id;
+    req.userId = token.userId;
     return next();
   }
   catch (err) {
