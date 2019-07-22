@@ -8,12 +8,12 @@ const BCRYPT_WORK_FACTOR = 10;
 
 class User {
 
-  /** Find user by ID: */
-  static async getById(id) {
+  /** Find user information  */
+  static async getUserInfo(data) {
     // Query the db for the user by id
     const result = await db.query(
       `SELECT * FROM users WHERE id = $1`, 
-      [id]);
+      [data.id]);
     
     // Throw an error if the user can't be found
     if (result.rows.length === 0) {
@@ -68,13 +68,10 @@ class User {
     const result = await db.query(
       `SELECT * 
        FROM users 
-       WHERE id = $1`, 
-      [data.user_id]);
-      
-    console.log("THE DATA IS", data);
+       WHERE email = $1`, 
+      [data.email]);
     
     const user = result.rows[0];
-    console.log("THE USER IS", user);
     
     if (user) {
       const isValid = await bcrypt.compare(data.password, user.password);
